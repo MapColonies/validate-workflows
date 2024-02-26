@@ -82,6 +82,11 @@ jobs:
           helm package . --dependency-update '${{ secrets.ACR_URL }}/helm/${{ env.CHART }}:${{ env.VER }}'
         working-directory: ./helm
       
+      - name: Save helm chart tag
+        run: |
+          helm tag ${{ env.CHART }} '${{ secrets.ACR_URL }}/helm/${{ env.CHART }}:${{ env.VER }}'
+        working-directory: ./helm
+
       - name: Publish chart to ACR
         run: |
           helm push ${{ secrets.ACR_URL }}/helm/${{ env.CHART }}:${{ env.VER }}
